@@ -1,2 +1,58 @@
-<h1>Tasks#index</h1>
-<p>Find me in app/views/tasks/index.html.erb</p>
+<div class="toppage">
+  <% if user_signed_in? %>
+    <li class="top"><%= "#{current_user.email}でログイン中" %></li>
+  <% end %>
+  <br>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="schedule">
+        <h2>予定一覧</h2>
+      </div>
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th>タイトル</th>
+            <th>日程</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @tasks.each do |task| %>
+            <tr>
+              <td><%= link_to task.title , task %></td>
+              <td><%= task.start_time.strftime("%m月%d日") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= form_with(model: @task, local: true) do |form| %>
+        <div class="title">
+          <div class="form-tag">タイトル</div>
+          <%= form.text_field :title %>
+        </div>
+        <div class="content">
+          <div class="form-tag">内容</div>
+          <%= form.text_field :content %>
+        </div>
+        <div class="time">
+          <div class="form-tag">日程</div>
+          <%= form.date_select :start_time %>
+        </div>
+        <div class="submit">
+          <%= form.submit %>
+        </div>
+      <% end %>
+    </div>
+    <br>
+    <br>
+    <div class="col-md-8">
+      <%= month_calendar events: @tasks do |date, tasks| %>
+        <%= date.day %>
+        <% tasks.each do |task| %>
+          <div>
+            <%= link_to task.title, task %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
