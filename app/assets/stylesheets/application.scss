@@ -15,3 +15,13 @@
  */
 
  @import "bootstrap/scss/bootstrap";
+ .base-container {
+  @extend .container-fluid;
+  //992px
+  max-width: var(--breakpoint-lg);
+  padding: 30px 15px;
+}
+
+body {
+  padding-top: 56px;
+}
