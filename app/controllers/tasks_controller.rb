@@ -16,7 +16,11 @@ class TasksController < ApplicationController
 
   def create
     @task = current_user.tasks.create(task_params)
-    redirect_to tasks_path, notice: '登録しました'
+    if @task.save
+      redirect_to tasks_path, notice: '登録しました'
+    else
+      redirect_to tasks_path, notice: '登録に失敗しました（タイトル・内容は入力必須です）'
+    end
   end
 
   def destroy
